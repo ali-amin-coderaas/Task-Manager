@@ -1,20 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="./assets/styles/index.css">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Task Manager</title>
+		<link rel="stylesheet" href="./assets/styles/index.css" />
 		<script src="./assets/scripts/index.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1>Task Manager</h1>
-        <form id="taskForm">
-            <input type="text" id="taskInput" placeholder="Enter task...">
-            <button type="submit">Add Task</button>
-        </form>
-        <ul id="taskList"></ul>
-    </div>
-</body>
+	</head>
+	<body>
+		<header>
+			<h1>Task Manager</h1>
+		</header>
+		<main>
+			<nav>
+				<ul>
+					<li>
+						<a href="#" id="pending-tasks">Pending Tasks</a>
+					</li>
+					<li>
+						<a href="#" id="completed-tasks">Completed Tasks</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="container">
+				<form id="taskForm">
+					<input type="text" id="taskInput" placeholder="Enter task..." />
+					<button type="submit">Add Task</button>
+				</form>
+				<ul id="taskList" class="tasklist"></ul>
+			</div>
+		</main>
+	</body>
 </html>
