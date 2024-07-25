@@ -28,17 +28,18 @@ main {
 	width: 80%;
 	margin-inline: auto;
 	nav {
-		ul {
+		.tabs {
 			display: flex;
 			justify-content: center;
 			gap: 2rem;
 			padding: 0;
 			li {
-				list-style: none;
-				text-decoration: none;
-
+				.active {
+					border-bottom: 1px solid #ccc;
+				}
 				a {
 					color: white;
+					padding: 10px;
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 	const taskForm = document.getElementById("taskForm");
 	const taskInput = document.getElementById("taskInput");
-	const taskList = document.getElementById("taskList");
+	const pendingTasksList = document.getElementById("pendingTasksList");
 
 	taskForm.addEventListener("submit", function (e) {
 		e.preventDefault();
@@ -12,16 +12,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		taskItem.innerHTML = `
 		<span>${taskName}</span>
 		<div>
-		  <button class="task-btn start-btn">Start</button>
+		   <button class="task-btn start-btn">Start</button>
 	     <button class="task-btn stop-btn">Stop</button>
 		</div>
 		<span class="time">0:00:00<span>
 		`;
-		taskList.appendChild(taskItem);
+		pendingTasksList.appendChild(taskItem);
 		taskInput.value = "";
 	});
 
-	taskList.addEventListener("click", function (e) {
+	pendingTasksList.addEventListener("click", function (e) {
 		if (e.target.classList.contains("start-btn")) {
 			startTimer(e.target);
 		} else if (e.target.classList.contains("stop-btn")) {
