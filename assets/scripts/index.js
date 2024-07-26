@@ -3,21 +3,18 @@ document.addEventListener("DOMContentLoaded", function () {
 	const taskInput = document.getElementById("taskInput");
 	const pendingTasksList = document.getElementById("pendingTasksList");
 
+	loadTasks();
+
 	taskForm.addEventListener("submit", function (e) {
 		e.preventDefault();
 		const taskName = taskInput.value.trim();
 		if (taskName === "") return;
 
-		const taskItem = document.createElement("li");
-		taskItem.innerHTML = `
-		<span>${taskName}</span>
-		<div>
-		   <button class="task-btn start-btn">Start</button>
-	     <button class="task-btn stop-btn">Stop</button>
-		</div>
-		<span class="time">0:00:00<span>
-		`;
+		const taskId = Date.now();
+
+		const taskItem = createTaskItem(taskName, taskId, "0:00:00");
 		pendingTasksList.appendChild(taskItem);
+		saveTask(taskName, taskId, "0:00:00");
 		taskInput.value = "";
 	});
 
@@ -28,6 +25,21 @@ document.addEventListener("DOMContentLoaded", function () {
 			stopTimer(e.target);
 		}
 	});
+
+	function createTaskItem(taskName, taskId, timeSpent) {
+		const taskItem = document.createElement("li");
+		taskItem.dataset.id = taskId;
+		taskItem.innerHTML = `
+		<span>${taskName}</span>
+		<div>
+		   <button class="task-btn start-btn">Start</button>
+		   <button class="task-btn stop-btn" disabled>Stop</button>
+		</div>
+		<span class="time">${timeSpent}</span>
+		`;
+
+		return taskItem;
+	}
 
 	function startTimer(btn) {
 		const listItem = btn.closest("li");
@@ -51,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		const timeSpent = formatTime(elapsedTime);
 		listItem.querySelector(".time").textContent = timeSpent;
+		updateTaskTime(listItem.dataset.id, timeSpent);
 	}
 
 	function updateTime(listItem) {
@@ -65,5 +78,28 @@ document.addEventListener("DOMContentLoaded", function () {
 		const minutes = Math.floor((milliseconds % 3600000) / 60000);
 		const seconds = Math.floor((milliseconds % 60000) / 1000);
 		return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+	}
+
+	function saveTask(name, id, timeSpent) {
+		const tasks = JSON.parse(localStorage.getItem("task")) || [];
+		tasks.push({ name, id, timeSpent });
+		localStorage.setItem("tasks", JSON.stringify(tasks));
+	}
+
+	function updateTaskTime(id, timeSpent) {
+		const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+		const task = tasks.find((task) => task.id == id);
+		if (task) {
+			task.timeSpent = timeSpent;
+			localStorage.setItem("tasks", JSON.stringify(tasks));
+		}
+	}
+
+	function loadTasks() {
+		const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+		tasks.forEach((task) => {
+			const taskItem = createTaskItem(task.name, task.id, task.timeSpent);
+			pendingTasksList.appendChild(taskItem);
+		});
 	}
 });
